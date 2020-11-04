@@ -1,0 +1,39 @@
+# Used for provisioning local dev environment                                
+version: '3.4'
+
+x-environment: &common-environment
+  USE_DOCKER: "yes"
+  DJANGO_SETTINGS_MODULE: library.settings
+  DJANGO_SECRET_KEY: really_secret_key
+  DJANGO_DEFAULT_FILE_STORAGE: django.core.files.storage.FileSystemStorage
+  DATABASE_URL: postgres://debug:debug@postgres:5432/debug
+  PYTHONBREAKPOINT: ipdb.set_trace
+
+services:
+  appserver:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: library_local
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    environment:
+      <<: *common-environment
+      DJANGO_ADMIN_URL: admin/
+      PORT: 8000
+      HOST: 0.0.0.0
+      DJANGO_DEBUG: "True"
+    ports:
+      - "8000:8000"
+    command: /start.sh
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: debug
+      POSTGRES_USER: debug
+      POSTGRES_PASSWORD: debug
