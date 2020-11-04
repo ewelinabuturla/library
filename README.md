@@ -5,8 +5,8 @@ There are two endpoint available:
 ## List of books
 - /api/books
 
-# Book detail with opinions
-- /api/book/<str:title>
+## Book detail with opinions
+- /api/books/<str:title>
 
 
 The application is contenerized and it uses Makefile to handle commands in a nice way.
@@ -40,11 +40,15 @@ Firstly books need to be uploaded, then opinions for books.
 
 
 ## To upload books
-- books.csv is .csv file name, placed in root folder.
 
     make populate_books args="--filename=books.csv"
 
+
+- books.csv is .csv file name, placed in root folder.
+
 ## To upload opinions
-- opinions.csv is .csv file name, placed in root folder.   
 
     make populate_opinions args="--file=opinions.csv"
+
+
+ - opinions.csv is .csv file name, placed in root folder.
